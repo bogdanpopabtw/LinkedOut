@@ -1,0 +1,26 @@
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { UsersService } from '../../shared/services/users.service';
+import { CommonModule } from '@angular/common';
+import { AvatarComponent } from '../../shared/components/avatar/avatar.component';
+
+@Component({
+  selector: 'app-network-table',
+  imports: [MatTableModule, CommonModule, AvatarComponent],
+  templateUrl: './network-table.component.html',
+  styleUrl: './network-table.component.scss',
+})
+export class NetworkTableComponent {
+  private usersService = inject(UsersService);
+  private router = inject(Router);
+
+  public users$ = this.usersService.allUsers();
+
+  displayedColumns: string[] = ['name', 'headline', 'location', 'connections'];
+
+  onRowClick(userId: number) {
+      this.router.navigate(['/user', userId]);
+    }
+}
