@@ -8,5 +8,5 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './section-card.component.scss',
 })
 export class SectionCardComponent {
-  
+  @Input() title!: string;
 }

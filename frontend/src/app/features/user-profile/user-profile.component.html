@@ -1,1 +1,59 @@
-<h1>User profile</h1>
+@if (user$ | async; as user) {
+  <div class="profile-container">
+    <div class="banner"></div>
+    <div class="profile-header">
+      <app-avatar></app-avatar>
+      <div class="profile-info">
+        <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+        <p>{{ user.headline }}</p>
+        <p>{{ user.location }}</p>
+        <p><mat-icon>people</mat-icon>{{ user.connections }} connections</p>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="contact-container">
+      <div class="contact-info">
+        <p><mat-icon>email</mat-icon>{{ user.email }}</p>
+        <p><mat-icon>phone</mat-icon>{{ user.phone }}</p>
+      </div>
+      <a href="{{ user.website }}" target="_blank"> <mat-icon>link</mat-icon>{{ user.website }} </a>
+    </div>
+  </div>
+  <app-section-card title="About">
+    <div>
+      <p>{{ user.about }}</p>
+    </div>
+    <div class="birthday">
+      <mat-icon>cake</mat-icon>
+      <span>{{ user.dateOfBirth }}</span>
+    </div>
+  </app-section-card>
+  <app-section-card title="Experience">
+    @for (experience of user.experience; track $index) {
+      <div>
+        <h3>{{ experience.title }}</h3>
+        <p>{{ experience.company }} {{ experience.location }}</p>
+        <p>{{ experience.startDate }} - {{ experience.endDate }}</p>
+        <p>{{ experience.description }}</p>
+      </div>
+      <mat-divider></mat-divider>
+    }
+  </app-section-card>
+  <app-section-card title="Education">
+    @for (education of user.education; track $index) {
+      <div>
+        <h3>{{ education.institution }}</h3>
+        <p>{{ education.degree }}, {{ education.fieldOfStudy }}</p>
+        <p>{{ education.startYear }} - {{ education.endYear }}</p>
+      </div>
+      <mat-divider></mat-divider>
+    }
+  </app-section-card>
+  <app-section-card title="Skills">
+    <div class="skills-list">
+      @for (skill of user.skills; track $index) {
+        <mat-chip>{{ skill }}</mat-chip>
+      }
+    </div>
+  </app-section-card>
+}

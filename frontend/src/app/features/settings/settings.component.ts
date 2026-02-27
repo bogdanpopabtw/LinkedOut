@@ -68,15 +68,13 @@ export class SettingsComponent implements OnInit {
 });
 
   ngOnInit(): void {
-  this.usersService.currentUser()
+    this.formPopulator();
+  }
+
+  private formPopulator(): void{
+    this.usersService.currentUser()
     .pipe(take(1)).subscribe(user => {
     this.settingsForm.patchValue(user as User);
-  })
-
-  // this.userSub = this.usersService.currentUser().subscribe(user => {this.settingsForm.patchValue(user);})
+    });
   }
 }
-
-//ngOnDestroy(): void {
-//  this.userSub.unsubscribe();
-//}

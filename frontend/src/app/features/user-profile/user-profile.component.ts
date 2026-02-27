@@ -8,11 +8,14 @@ import { ActivatedRoute } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { SectionCardComponent } from '../../shared/components/section-card/section-card.component';
+import { AvatarComponent } from '../../shared/components/avatar/avatar.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @Component({
   selector: 'app-user-profile',
-  imports: [CommonModule, MatCardModule, MatIconModule, MatChipsModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, MatChipsModule, SectionCardComponent, AvatarComponent, MatDividerModule],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })
