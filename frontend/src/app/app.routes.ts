@@ -7,6 +7,6 @@ export const routes: Routes = [
   { path: 'network', component: NetworkTableComponent },
   { path: 'settings', component: SettingsComponent },  
   { path: 'user/:id', component: UserProfileComponent },
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: 'network' },
 ];
  

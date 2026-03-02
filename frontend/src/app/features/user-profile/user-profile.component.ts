@@ -23,13 +23,19 @@ export class UserProfileComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly usersService = inject(UsersService);
 
-  public user$: Observable<User> = this.usersService.currentUser();
+  public user$!: Observable<User>;
 
   ngOnInit(): void {
+    this.loadUser();
+  }
+
+  private loadUser(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
     if(id) {
       this.user$ = this.usersService.getUserById(+id);
+    } else {
+      this.user$ = this.usersService.currentUser();
     }
   }
 }

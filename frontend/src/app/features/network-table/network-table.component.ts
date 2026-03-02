@@ -13,14 +13,14 @@ import { AvatarComponent } from '../../shared/components/avatar/avatar.component
   styleUrl: './network-table.component.scss',
 })
 export class NetworkTableComponent {
-  private usersService = inject(UsersService);
-  private router = inject(Router);
+  private readonly usersService = inject(UsersService);
+  private readonly router = inject(Router);
 
   public users$ = this.usersService.allUsers();
 
   displayedColumns: string[] = ['name', 'headline', 'location', 'connections'];
 
-  onRowClick(userId: number) {
+  protected onRowClick(userId: number) {
       this.router.navigate(['/user', userId]);
     }
 }
