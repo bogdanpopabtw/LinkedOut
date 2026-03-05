@@ -87,9 +87,19 @@
         </mat-card-content>
       </mat-card>
       <div class="form-submit">
-        <button matButton="outlined" type="submit" [disabled]="settingsForm.invalid">
+        <button
+          appSaveButton
+          matButton="outlined"
+          type="submit"
+          [disabled]="settingsForm.invalid || settingsForm.pristine"
+        >
           Save Changes
         </button>
+        @if (settingsForm.invalid || settingsForm.pristine) {
+          <button appInfoIcon mat-icon-button>
+            <mat-icon>info</mat-icon>
+          </button>
+        }
       </div>
     </form>
   </div>

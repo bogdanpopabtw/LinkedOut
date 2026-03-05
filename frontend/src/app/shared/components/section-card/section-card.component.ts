@@ -3,10 +3,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { RandomColorDirective } from '../../directives/random-color/random-color.directive';
 
 @Component({
   selector: 'app-section-card',
-  imports: [MatCardModule, MatIconModule, MatChipsModule, MatDividerModule],
+  imports: [MatCardModule, MatIconModule, MatChipsModule, MatDividerModule, RandomColorDirective],
   templateUrl: './section-card.component.html',
   styleUrl: './section-card.component.scss',
 })

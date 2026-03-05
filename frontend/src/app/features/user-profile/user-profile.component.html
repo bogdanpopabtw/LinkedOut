@@ -29,6 +29,15 @@
               </div>
             </div>
           </div>
+          <button
+            *appIfCurrentUser="user.id"
+            mat-stroked-button
+            class="settings-btn"
+            routerLink="/settings"
+          >
+            <mat-icon>settings</mat-icon>
+            Settings
+          </button>
         </div>
 
         <mat-divider class="profile-content-border"></mat-divider>
