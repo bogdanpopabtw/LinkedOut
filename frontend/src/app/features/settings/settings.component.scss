@@ -1,0 +1,47 @@
+.main-container {
+  background-color: white;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.settings-container {
+  max-width: 800px;
+  margin: 0 auto;
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+}
+
+.section-container {
+  margin-bottom: 20px;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: rgb(61, 61, 61);
+  }
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 10px;
+
+  mat-form-field {
+    flex: 1;
+  }
+}
+
+.form-field-long {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.form-submit {
+  display: flex;
+  justify-content: flex-end;
+}

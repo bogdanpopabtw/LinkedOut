@@ -1,0 +1,84 @@
+.main-container {
+  padding-bottom: 40px;
+}
+
+.profile-container {
+  margin: 20px 140px;
+  overflow: hidden;
+}
+
+.banner {
+  background: linear-gradient(135deg, #055fb4, #1067c4);
+  height: 120px;
+}
+
+.profile-header {
+  display: flex;
+}
+
+.avatar {
+  font-size: 32px;
+  font-weight: 700;
+  margin: -50px 26px 10px 26px;
+}
+
+.user-name {
+  font-weight: 700;
+  font-size: 28px;
+}
+
+.user-headline {
+  color: #646262;
+  font-weight: 400;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.location,
+.connections {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.location {
+  color: #646262;
+}
+
+.connections {
+  color: #055fb4;
+}
+
+.connections-number {
+  font-weight: 700;
+}
+
+.profile-content-border {
+  margin: 10px 0;
+}
+
+.contact-container a {
+  text-decoration: none;
+  color: #055fb4;
+}
+
+.contact-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+
+  & mat-icon {
+    font-size: 24px;
+  }
+}
