@@ -11,9 +11,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { SectionCardComponent } from '../../shared/components/section-card/section-card.component';
 import { AvatarComponent } from '../../shared/components/avatar/avatar.component';
 import { MatDividerModule } from '@angular/material/divider';
-import { IfCurrentUserDirective } from '../../directives/if-current-user/if-current-user.directive';
+import { IfCurrentUserDirective } from '../../shared/directives/if-current-user/if-current-user.directive';
 import { MatButtonModule } from '@angular/material/button';
-
 
 @Component({
   selector: 'app-user-profile',

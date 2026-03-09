@@ -9,10 +9,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { User } from '../../shared/models/user.model';
 import { take } from 'rxjs/operators';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { InfoIconDirective } from '../../shared/directives/info-icon/info-icon.directive';
+import { SaveButtonDirective } from '../../shared/directives/save-button/save-button.directive';
 
 @Component({
   selector: 'app-settings',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatCardModule, MatDatepickerModule, MatNativeDateModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatCardModule, MatDatepickerModule, MatNativeDateModule, MatSnackBarModule, MatIconModule, InfoIconDirective, SaveButtonDirective],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
 })

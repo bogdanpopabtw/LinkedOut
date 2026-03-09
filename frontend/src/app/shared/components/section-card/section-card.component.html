@@ -1,21 +1,21 @@
 <mat-card class="section-container">
   <!-- About -->
-  @if (type === 'About') {
+  @if (section.type === 'About') {
     <mat-card-content class="section-card">
-      <mat-card-title class="section-title">{{ type }}</mat-card-title>
-      <p>{{ content }}</p>
+      <mat-card-title class="section-title">{{ section.type }}</mat-card-title>
+      <p>{{ section.content }}</p>
       <div class="birthday">
         <mat-icon>cake</mat-icon>
-        <span>{{ birthday }}</span>
+        <span>{{ section.birthday }}</span>
       </div>
     </mat-card-content>
   }
 
   <!-- Experience -->
-  @if (type === 'Experience') {
+  @if (section.type === 'Experience') {
     <mat-card-content class="section-card">
-      <mat-card-title class="section-title">{{ type }}</mat-card-title>
-      @for (item of items; track item.id) {
+      <mat-card-title class="section-title">{{ section.type }}</mat-card-title>
+      @for (item of section.items; track $index) {
         <mat-card-subtitle class="section-subtitle">{{ item.title }}</mat-card-subtitle>
         <p class="gray-text">{{ item.company }} • {{ item.location }}</p>
         <p class="gray-text">{{ item.startDate }} - {{ item.endDate }}</p>
@@ -26,10 +26,10 @@
   }
 
   <!-- Education -->
-  @if (type === 'Education') {
+  @if (section.type === 'Education') {
     <mat-card-content class="section-card">
-      <mat-card-title class="section-title">{{ type }}</mat-card-title>
-      @for (item of items; track item) {
+      <mat-card-title class="section-title">{{ section.type }}</mat-card-title>
+      @for (item of section.items; track $index) {
         <mat-card-subtitle class="section-subtitle">{{ item.institution }}</mat-card-subtitle>
         <p class="gray-text">{{ item.degree }}, {{ item.fieldOfStudy }}</p>
         <p class="gray-text">{{ item.startYear }} - {{ item.endYear }}</p>
@@ -39,12 +39,12 @@
   }
 
   <!-- Skills -->
-  @if (type === 'Skills') {
+  @if (section.type === 'Skills') {
     <mat-card-content class="section-card">
-      <mat-card-title class="section-title">{{ type }}</mat-card-title>
+      <mat-card-title class="section-title">{{ section.type }}</mat-card-title>
       <mat-chip-set>
-        @for (skill of items; track skill) {
-          <mat-chip>{{ skill }}</mat-chip>
+        @for (skill of section.items; track $index) {
+          <mat-chip appRandomColor>{{ skill }}</mat-chip>
         }
       </mat-chip-set>
     </mat-card-content>
