@@ -1,9 +1,9 @@
 .network-container {
   padding: 20px 100px;
-}
 
-.network-container h1 {
-  color: black;
+  & h1 {
+    color: black;
+  }
 }
 
 .network-table {

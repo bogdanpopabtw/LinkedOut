@@ -14,7 +14,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { IfCurrentUserDirective } from '../../shared/directives/if-current-user/if-current-user.directive';
 import { MatButtonModule } from '@angular/material/button';
 
-
 @Component({
   selector: 'app-user-profile',
   imports: [CommonModule, MatCardModule, MatIconModule, MatChipsModule, SectionCardComponent, AvatarComponent, MatDividerModule, IfCurrentUserDirective, MatButtonModule, RouterLink],

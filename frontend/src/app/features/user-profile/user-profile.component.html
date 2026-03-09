@@ -60,13 +60,16 @@
       </mat-card-content>
     </mat-card>
 
-    <app-section-card [content]="user.about" [birthday]="user.dateOfBirth" type="About">
+    <app-section-card
+      [section]="{ type: 'About', content: user.about, birthday: user.dateOfBirth }"
+    >
     </app-section-card>
 
-    <app-section-card [items]="user.experience" type="Experience"> </app-section-card>
+    <app-section-card [section]="{ type: 'Experience', items: user.experience }">
+    </app-section-card>
 
-    <app-section-card [items]="user.education" type="Education"> </app-section-card>
+    <app-section-card [section]="{ type: 'Education', items: user.education }"> </app-section-card>
 
-    <app-section-card [items]="user.skills" type="Skills"> </app-section-card>
+    <app-section-card [section]="{ type: 'Skills', items: user.skills }"> </app-section-card>
   }
 </div>

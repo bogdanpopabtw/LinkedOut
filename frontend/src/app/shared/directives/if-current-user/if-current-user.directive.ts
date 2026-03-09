@@ -1,6 +1,7 @@
 import { Directive, Input, inject, TemplateRef, ViewContainerRef } from '@angular/core';
 import { UsersService } from '../../services/users.service';
-import { Subscription } from 'rxjs';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
   selector: '[appIfCurrentUser]'
@@ -11,7 +12,7 @@ export class IfCurrentUserDirective {
   private templateRef = inject(TemplateRef<any>);
   private viewContainerRef = inject(ViewContainerRef);
   private usersService = inject(UsersService);
-  private subscription?: Subscription;
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.updateView();
@@ -22,16 +23,12 @@ export class IfCurrentUserDirective {
       return;
     }
     
-    this.subscription = this.usersService.currentUser().subscribe(currentUser => {
+    this.usersService.currentUser().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(currentUser => {
       this.viewContainerRef.clear();
 
-    if (currentUser && currentUser.id === this.appIfCurrentUser) {
-      this.viewContainerRef.createEmbeddedView(this.templateRef);
-    }
+      if(currentUser && currentUser.id === this.appIfCurrentUser) {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 }

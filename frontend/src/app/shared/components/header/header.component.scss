@@ -12,20 +12,20 @@
   .header__title {
     font-size: 1.5rem;
     font-weight: bold;
-  }
 
-  .header__title a {
-    text-decoration: none;
-    color: black;
+    a {
+      text-decoration: none;
+      color: black;
+    }
   }
 
   .header__right {
     margin-left: auto;
-  }
 
-  .header__right button {
-    border: none;
-    background: var(--mat-sys-surface-container-high);
-    cursor: pointer;
+    button {
+      border: none;
+      background: var(--mat-sys-surface-container-high);
+      cursor: pointer;
+    }
   }
 }
