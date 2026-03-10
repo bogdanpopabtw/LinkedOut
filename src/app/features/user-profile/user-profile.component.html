@@ -1,0 +1,75 @@
+<div class="main-container">
+  @if (user$ | async; as user) {
+    <mat-card class="profile-container">
+      <div class="banner"></div>
+
+      <mat-card-content>
+        <div class="profile-header">
+          <app-avatar
+            class="avatar"
+            [firstName]="user.firstName"
+            [lastName]="user.lastName"
+            [size]="120"
+            [border]="'4px solid white'"
+          ></app-avatar>
+          <div>
+            <mat-card-title class="user-name"
+              >{{ user.firstName }} {{ user.lastName }}</mat-card-title
+            >
+            <mat-card-subtitle class="user-headline">{{ user.headline }}</mat-card-subtitle>
+            <div class="user-details">
+              <div class="location">
+                <mat-icon>location_on</mat-icon>
+                <span>{{ user.location }}</span>
+              </div>
+              <div class="connections">
+                <mat-icon>people</mat-icon>
+                <span class="connections-number">{{ user.connections }}</span
+                ><span>connections</span>
+              </div>
+            </div>
+          </div>
+          <button
+            *appIfCurrentUser="user.id"
+            mat-stroked-button
+            class="settings-btn"
+            routerLink="/settings"
+          >
+            <mat-icon>settings</mat-icon>
+            Settings
+          </button>
+        </div>
+
+        <mat-divider class="profile-content-border"></mat-divider>
+
+        <div class="contact-container">
+          <div class="contact-row">
+            <a href="mailto:{{ user.email }}" class="contact-item">
+              <mat-icon>email</mat-icon>
+              <span>{{ user.email }}</span>
+            </a>
+            <div class="contact-item">
+              <span>{{ user.phone }}</span>
+            </div>
+          </div>
+          <a [href]="user.website" target="_blank" class="contact-item">
+            <mat-icon>link</mat-icon>
+            <span>{{ user.website }}</span>
+          </a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <app-section-card
+      [section]="{ type: 'About', content: user.about, birthday: user.dateOfBirth }"
+    >
+    </app-section-card>
+
+    <app-section-card [section]="{ type: 'Experience', items: user.experience }">
+    </app-section-card>
+
+    <app-section-card [section]="{ type: 'Education', items: user.education }"> </app-section-card>
+
+    <app-section-card [section]="{ type: 'Skills', items: user.skills }"> </app-section-card>
+  }
+</div>

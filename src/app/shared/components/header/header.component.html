@@ -1,0 +1,14 @@
+<div class="header__title">
+  <a routerLink="/network">Linkedout</a>
+</div>
+<div class="header__right">
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/settings">
+      <mat-icon>settings</mat-icon>
+      <span>Settings</span>
+    </button>
+  </mat-menu>
+</div>
