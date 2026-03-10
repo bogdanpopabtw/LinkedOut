@@ -9,6 +9,7 @@ import { AUTH_FEATURE_KEY } from './store/auth/auth.selectors';
 import { AuthEffects } from './store/auth/auth.effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
+import { provideCustomIcons } from './shared/services/icon-registry.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
         [AUTH_FEATURE_KEY]: authReducer,
     }),
     provideEffects(AuthEffects),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideCustomIcons()
 ],
 };
