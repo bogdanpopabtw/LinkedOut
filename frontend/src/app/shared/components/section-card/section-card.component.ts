@@ -6,12 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { RandomColorDirective } from '../../directives/random-color/random-color.directive';
 import { Experience } from '../../models/experience.model';
 import { Education } from '../../models/education.model';
+import { Skill } from '../../models/skill.model';
 
 type SectionCard = 
   { type: 'About'; content: string; birthday: string }
   | { type: 'Experience'; items: Experience[] } 
   | { type: 'Education'; items: Education[] } 
-  | { type: 'Skills'; items: string[] };
+  | { type: 'Skills'; items: Skill[] };
 
 @Component({
   selector: 'app-section-card',

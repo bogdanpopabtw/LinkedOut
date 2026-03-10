@@ -1,33 +1,21 @@
-import { Directive, Input, inject, TemplateRef, ViewContainerRef } from '@angular/core';
-import { UsersService } from '../../services/users.service';
-import { DestroyRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Directive, inject, Input, TemplateRef, ViewContainerRef, OnInit } from '@angular/core';
+import { AuthFacade } from '../../../store/auth/auth.facade';
 
 @Directive({
-  selector: '[appIfCurrentUser]'
+  selector: '[appIfCurrentUser]',
 })
-export class IfCurrentUserDirective {
+export class IfCurrentUserDirective implements OnInit {
   @Input() appIfCurrentUser?: number;
 
-  private templateRef = inject(TemplateRef<any>);
-  private viewContainerRef = inject(ViewContainerRef);
-  private usersService = inject(UsersService);
-  private destroyRef = inject(DestroyRef);
+  private readonly templateRef = inject(TemplateRef);
+  private readonly viewContainer = inject(ViewContainerRef);
+  private readonly authFacade = inject(AuthFacade);
 
   ngOnInit(): void {
-    this.updateView();
-  }
-
-  private updateView(): void {
-    if(!this.appIfCurrentUser) {
-      return;
-    }
-    
-    this.usersService.currentUser().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(currentUser => {
-      this.viewContainerRef.clear();
-
-      if(currentUser && currentUser.id === this.appIfCurrentUser) {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
+    this.authFacade.currentUser$.subscribe((currentUser) => {
+      this.viewContainer.clear();
+      if (this.appIfCurrentUser === currentUser?.id) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
       }
     });
   }

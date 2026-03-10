@@ -8,6 +8,7 @@ import { AvatarComponent } from '../../shared/components/avatar/avatar.component
 import { HighlightDirective } from '../../shared/directives/highlight/highlight.directive';
 import { TechIconsDirective } from '../../shared/directives/tech-icons/tech-icons.directive';
 import { MatIconModule } from '@angular/material/icon';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-network-table',
@@ -19,7 +20,7 @@ export class NetworkTableComponent {
   private readonly usersService = inject(UsersService);
   private readonly router = inject(Router);
 
-  public users$ = this.usersService.allUsers();
+  public users$ = this.usersService.getAllUsers();
 
   displayedColumns: string[] = ['name', 'headline', 'location', 'connections'];
 

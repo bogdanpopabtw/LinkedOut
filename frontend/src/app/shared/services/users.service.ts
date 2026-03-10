@@ -1,56 +1,39 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+// services/users.service.ts
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
+import { PaginatedResponse } from '../models/pagination.model';
 import { environment } from '../../../environments/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+export interface UsersQuery {
+  search?: string;
+  sort?: string;
+  order?: 'asc' | 'desc';
+  page?: number;
+  limit?: number;
+}
+
+@Injectable({ providedIn: 'root' })
 export class UsersService {
-  private readonly baseURL = environment.baseURL;
-  private readonly usersURL = `${this.baseURL}/users`;
+  private readonly http = inject(HttpClient);
+  private readonly base = `${environment.baseURL}/users`;
 
-  private readonly httpClient: HttpClient = inject(HttpClient);
-
-  /**
-   * Fetches all users from the API.
-   * @private
-   * @returns An observable of user array
-   */
-  private getUsersRaw(): Observable<User[]> {
-    return this.httpClient.get<User[]>(this.usersURL);
+  getAllUsers(query: UsersQuery = {}): Observable<PaginatedResponse<User>> {
+    let params = new HttpParams();
+    if (query.search) params = params.set('search', query.search);
+    if (query.sort) params = params.set('sort', query.sort);
+    if (query.order) params = params.set('order', query.order);
+    if (query.page) params = params.set('page', query.page);
+    if (query.limit) params = params.set('limit', query.limit);
+    return this.http.get<PaginatedResponse<User>>(this.base, { params });
   }
 
-  /**
-   * Retrieves all users.
-   * @returns An observable of all users
-   */
-  public allUsers(): Observable<User[]> {
-    return this.getUsersRaw();
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.base}/${id}`);
   }
 
-  /**
-   * Retrieves a specific user by their ID.
-   * @param id - The ID of the user to retrieve
-   * @returns An observable of the user
-   */
-  public getUserById(id: number): Observable<User> {
-    const url = `${this.usersURL}/${id}`;
-    return this.httpClient.get<User>(url);
-  }
-
-  /**
-   * Updates an existing user.
-   * @param updated - The user object with updated information
-   * @returns An observable of the updated user
-   */
-  public updateUser(updated: User): Observable<User> {
-    return this.httpClient.put<User>(`${this.usersURL}/${updated.id}`, updated);
-  }
-
-  /** Return the "current" logged-in user (first user for demo purposes). */
-  public currentUser(): Observable<User> {
-    return this.getUserById(1);
+  updateUser(id: number, payload: Partial<User>): Observable<User> {
+    return this.http.put<User>(`${this.base}/${id}`, payload);
   }
 }

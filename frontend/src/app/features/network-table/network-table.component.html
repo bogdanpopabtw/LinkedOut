@@ -1,6 +1,6 @@
 <div class="network-container">
   <h1>Network</h1>
-  <table mat-table [dataSource]="users$" class="network-table">
+  <table mat-table [dataSource]="(users$ | async)?.data || []" class="network-table">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
       <td mat-cell *matCellDef="let user">

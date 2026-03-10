@@ -1,18 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { UsersService } from '../../shared/services/users.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { User } from '../../shared/models/user.model';
 import { take } from 'rxjs/operators';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { InfoIconDirective } from '../../shared/directives/info-icon/info-icon.directive';
 import { SaveButtonDirective } from '../../shared/directives/save-button/save-button.directive';
+import { Store } from '@ngrx/store';
+import { selectCurrentUser } from '../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-settings',
@@ -21,7 +21,8 @@ import { SaveButtonDirective } from '../../shared/directives/save-button/save-bu
   styleUrl: './settings.component.scss',
 })
 export class SettingsComponent implements OnInit {
-  private usersService = inject(UsersService);
+  private store = inject(Store);
+  protected readonly currentUser$ = this.store.select(selectCurrentUser);
 
   minDate = new Date(1950, 0, 1)
   maxDate = new Date();
@@ -76,9 +77,11 @@ export class SettingsComponent implements OnInit {
   }
 
   private formPopulator(): void{
-    this.usersService.currentUser()
+    this.currentUser$
     .pipe(take(1)).subscribe(user => {
-    this.settingsForm.patchValue(user as User);
+      if(user) {
+    this.settingsForm.patchValue(user);
+      }
     });
   }
 }
