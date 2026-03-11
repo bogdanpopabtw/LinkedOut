@@ -25,6 +25,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideEffects(AuthEffects, UserTableEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideCustomIcons()
+    provideCustomIcons(),
 ],
 };

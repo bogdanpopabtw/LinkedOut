@@ -14,9 +14,9 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [
     MatTableModule,
     MatIconModule,
-    CommonModule, 
-    AvatarComponent, 
-    HighlightDirective, 
+    CommonModule,
+    AvatarComponent,
+    HighlightDirective,
     TechIconsDirective,
   ],
   templateUrl: './network-table.component.html',
@@ -29,10 +29,6 @@ export class NetworkTableComponent {
   protected readonly users$ = this.users.users$;
 
   protected readonly displayedColumns: string[] = ['name', 'headline', 'location', 'connections'];
-
-  ngOnInit(): void {
-    this.users.init();
-  }
 
   protected onRowClick(userId: number) {
     this.router.navigate(['/user', userId]);

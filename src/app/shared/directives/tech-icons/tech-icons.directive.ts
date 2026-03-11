@@ -6,7 +6,7 @@ import { Skill } from '../../models/skill.model';
   selector: '[appTechIcons]',
   host: {
     '[style.color]': 'iconColor',
-  }
+  },
 })
 export class TechIconsDirective implements OnInit {
   private matIcon = inject(MatIcon, { self: true });
@@ -49,4 +49,3 @@ export class TechIconsDirective implements OnInit {
     }
   }
 }
-
