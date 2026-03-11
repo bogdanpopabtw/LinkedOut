@@ -1,11 +1,11 @@
 <div class="network-container">
   <h1>Network</h1>
-  <table mat-table [dataSource]="(users$ | async)?.data || []" class="network-table">
+  <table mat-table [dataSource]="(users$ | async) ?? []" class="network-table">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
       <td mat-cell *matCellDef="let user">
         <div class="name-cell">
-          <app-avatar [firstName]="user.firstName" [lastName]="user.lastName"> </app-avatar>
+          <app-avatar [firstName]="user.firstName" [lastName]="user.lastName" />
           <span>{{ user.firstName }} {{ user.lastName }}</span>
         </div>
       </td>
@@ -13,7 +13,7 @@
     <ng-container matColumnDef="headline">
       <th mat-header-cell *matHeaderCellDef>Headline</th>
       <td mat-cell *matCellDef="let user">
-        <mat-icon appTechIcons [rowHeadline]="user.headline"></mat-icon>
+        <mat-icon appTechIcons [rowSkills]="user.skills"></mat-icon>
         {{ user.headline }}
       </td>
     </ng-container>

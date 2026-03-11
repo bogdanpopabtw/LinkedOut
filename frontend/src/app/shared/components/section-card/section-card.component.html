@@ -44,7 +44,7 @@
       <mat-card-title class="section-title">{{ section.type }}</mat-card-title>
       <mat-chip-set>
         @for (skill of section.items; track $index) {
-          <mat-chip appRandomColor>{{ skill }}</mat-chip>
+          <mat-chip appRandomColor>{{ skill.name }}</mat-chip>
         }
       </mat-chip-set>
     </mat-card-content>
