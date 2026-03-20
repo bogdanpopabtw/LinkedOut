@@ -10,6 +10,12 @@ import { AuthEffects } from './store/auth/auth.effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
 import { provideCustomIcons } from './shared/services/icon-registry.service';
+import { userTableReducer } from './store/user-table/user-table.reducer';
+import { USER_TABLE_FEATURE_KEY } from './store/user-table/user-table.selectors';
+import { UserTableEffects } from './store/user-table/user-table.effects';
+import { themeReducer } from './store/ui/ui.reducer';
+import { THEME_FEATURE_KEY } from './store/ui/ui.selectors';
+import { ThemeEffects } from './store/ui/ui.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,9 +24,11 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStore({
         [AUTH_FEATURE_KEY]: authReducer,
+        [USER_TABLE_FEATURE_KEY]: userTableReducer,
+        [THEME_FEATURE_KEY]: themeReducer,
     }),
-    provideEffects(AuthEffects),
+    provideEffects(AuthEffects, UserTableEffects, ThemeEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideCustomIcons()
+    provideCustomIcons(),
 ],
 };
