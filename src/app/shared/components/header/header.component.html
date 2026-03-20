@@ -1,7 +1,14 @@
 <div class="header__title">
-  <a routerLink="/network">Linkedout</a>
+  <i class="fa-brands fa-linkedin"></i>
+  <a routerLink="/network">LinkedOut</a>
+</div>
+<div>
+  <h4>Dashboard</h4>
 </div>
 <div class="header__right">
+  <button mat-icon-button (click)="toggleTheme()" aria-label="toggle theme">
+    <mat-icon>{{ (isDarkTheme$ | async) ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
   <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
     <mat-icon>menu</mat-icon>
   </button>

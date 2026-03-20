@@ -1,5 +1,12 @@
 <div class="network-container">
   <h1>Network</h1>
+  <mat-form-field appearance="outline">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput [formControl]="searchControl" placeholder="Search users" />
+  </mat-form-field>
+  @if (loading$ | async) {
+    <mat-spinner></mat-spinner>
+  }
   <table mat-table [dataSource]="(users$ | async) ?? []" class="network-table">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -35,4 +42,12 @@
       (click)="onRowClick(row.id)"
     ></tr>
   </table>
+  <mat-paginator
+    [length]="(totalItems$ | async) ?? 0"
+    [pageSize]="(currentPreferences$ | async)?.pagination?.pageSize ?? 10"
+    [pageIndex]="((currentPreferences$ | async)?.pagination?.pageNumber ?? 1) - 1"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
 </div>

@@ -1,69 +1,98 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, switchMap, withLatestFrom, take, filter } from 'rxjs/operators';
 import { UsersService } from '../../shared/services/users.service';
 import { selectCurrentUser } from '../auth/auth.selectors';
-import { Store } from '@ngrx/store';
-import { 
+import {
+  initUserTable,
   loadUsers,
   loadUsersSuccess,
   loadUsersFailure,
-  loadTablePreferences,
-  loadTablePreferencesSuccess,
-  loadTablePreferencesFailure,
-  saveTablePreferences,
-  saveTablePreferencesSuccess,
-  saveTablePreferencesFailure,
+  setPreferences,
+  savePreferences,
+  savePreferencesSuccess,
+  savePreferencesFailure,
 } from './user-table.actions';
+
 
 @Injectable()
 export class UserTableEffects {
   private readonly actions$ = inject(Actions);
-  private readonly usersService = inject(UsersService);
   private readonly store = inject(Store);
+  private readonly usersService = inject(UsersService);
 
-  loadUsers$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadUsers),
-      switchMap(() =>
-        this.usersService.getAllUsers().pipe(
-          map((response) => {
-            const users = response.data;
-            return users
-              ? loadUsersSuccess({ users })
-              : loadUsersFailure({ error: 'No users found' });
-          }),
-          catchError((err) =>
-            of(loadUsersFailure({ error: err?.message ?? 'Unknown error' })),
+  init$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(initUserTable),
+    switchMap(() =>
+      this.store.select(selectCurrentUser).pipe(
+        filter((user) => user !== null),
+        take(1),
+        switchMap((currentUser) =>
+          this.usersService.getUserById(currentUser!.id).pipe(
+            switchMap((newUser) => [
+              setPreferences({ preferences: newUser.tablePreferences }),
+              loadUsers({ preferences: newUser.tablePreferences }),
+            ]),
+            catchError(() => [
+              setPreferences({ preferences: currentUser!.tablePreferences }),
+              loadUsers({ preferences: currentUser!.tablePreferences }),
+            ]),
           ),
         ),
       ),
     ),
-  );
+  ),
+);
 
-  loadTablePreferences$ = createEffect(() => 
+  loadUsers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadTablePreferences),
-      withLatestFrom(this.store.select(selectCurrentUser)),
-      map(([, user]) =>
-        user?.tablePreferences
-          ? loadTablePreferencesSuccess({ preferences: user.tablePreferences })
-          : loadTablePreferencesFailure({ error: 'No preferences found' }),
+      ofType(loadUsers),
+      switchMap(({ preferences }) =>
+        this.usersService
+          .getAllUsers({
+            search: preferences?.searchFilter,
+            page: preferences?.pagination?.pageNumber,
+            limit: preferences?.pagination?.pageSize,
+          })
+          .pipe(
+            map((response) =>
+              loadUsersSuccess({
+                users: response.data,
+                totalItems: response.pagination.totalItems,
+              }),
+            ),
+            catchError((err) =>
+              of(loadUsersFailure({ error: err?.message ?? 'Unknown error' })),
+            ),
           ),
       ),
-    );
+    ),
+  );
 
-  saveTablePreferences$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(saveTablePreferences),
-    withLatestFrom(this.store.select(selectCurrentUser)),
-    switchMap(([{ preferences }, user]) =>
-      this.usersService.updateUser(user!.id, { tablePreferences: preferences }).pipe(
-        map(() => saveTablePreferencesSuccess({ preferences })),
-        catchError((err) =>
-          of(saveTablePreferencesFailure({ error: err?.message ?? 'Unknown error' })),
-      ),
-    )),
-  ));
+  savePreferences$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(savePreferences),
+      withLatestFrom(this.store.select(selectCurrentUser)),
+      switchMap(([{ preferences }, currentUser]) => {
+        if (!currentUser) {
+          return of(savePreferencesFailure({ error: 'No current user found' }));
+        }
+
+        return this.usersService
+          .updateUser(currentUser.id, { tablePreferences: preferences })
+          .pipe(
+            switchMap(() => [
+              savePreferencesSuccess({ preferences }),
+              loadUsers({ preferences }),
+            ]),
+            catchError((err) =>
+              of(savePreferencesFailure({ error: err?.message ?? 'Unknown error' })),
+            ),
+          );
+      }),
+    ),
+  );
 }
