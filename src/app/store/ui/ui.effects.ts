@@ -20,7 +20,7 @@ export class ThemeEffects {
       switchMap(([, currentUser]) => {
         const isDarkTheme = currentUser?.isDarkTheme ?? false;
         document.documentElement.classList.toggle('dark-theme', isDarkTheme);
-        return of(setTheme({ isDarkTheme }));
+        return of(setThemeSuccess({ isDarkTheme }));
       }),
     ),
   );

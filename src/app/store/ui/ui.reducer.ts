@@ -7,11 +7,11 @@ export const themeReducer = createReducer(
 
     on(initTheme, (state) => ({ ...state, loading: true, error: null })),
 
-    on(setTheme, (state, {isDarkTheme}) => ({
+    on(setTheme, (state) => ({
       ...state,
-      isDarkTheme, 
-      loading: true, 
-      error: null})),
+      loading: true,
+      error: null,
+    })),
 
     on(setThemeSuccess, (state, { isDarkTheme }) => ({
       ...state,
