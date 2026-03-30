@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { selectCurrentUser } from '../../../store/auth/auth.selectors';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { AvatarComponent } from "../avatar/avatar.component";
+import { AuthFacade } from '../../../store/auth/auth.facade';
+import { AuthService } from '../../../core/services/auth.service';
 
 interface NavItem {
   label: string;
@@ -25,19 +25,27 @@ interface NavItem {
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
-  private readonly store = inject(Store);
-  currentUser$ = this.store.select(selectCurrentUser);
+  private readonly authFacade = inject(AuthFacade);
+  private readonly authService = inject(AuthService);
 
-  isCollapsed = true;
+  protected readonly currentUser$ = this.authFacade.currentUser$;
+  protected readonly isAuthenticated$ = this.authFacade.isAuthenticated$;
 
-  toggle() {
-    this.isCollapsed = !this.isCollapsed;
-  }
-
-  navItems: NavItem[] = [
+  protected navItems: NavItem[] = [
     { icon: 'home', label: 'Network', route: '/network' },
     { icon: 'business', label: 'Companies', route: '/companies' },
     { icon: 'work', label: 'Jobs', route: '/jobs' },
     { icon: 'settings', label: 'Settings', route: '/settings' },
   ]
+
+  protected logout(): void {
+    this.authService.logout();
+    this.isCollapsed = true;
+  }
+
+  protected isCollapsed = true;
+
+  protected toggle() {
+    this.isCollapsed = !this.isCollapsed;
+  }
 }

@@ -1,6 +1,7 @@
 import { Component, inject, DestroyRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserTableFacade } from '../../store/user-table/user-table.facade';
+import { AuthFacade } from '../../store/auth/auth.facade';
 import { CommonModule } from '@angular/common';
 import { AvatarComponent } from '../../shared/components/avatar/avatar.component';
 import { HighlightDirective } from '../../shared/directives/highlight/highlight.directive';
@@ -35,6 +36,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class NetworkTableComponent {
   private readonly userTableFacade = inject(UserTableFacade);
+  private readonly authFacade = inject(AuthFacade);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -47,9 +49,20 @@ export class NetworkTableComponent {
   protected readonly displayedColumns: string[] = ['name', 'headline', 'location', 'connections'];
 
   ngOnInit(): void {
-    this.userTableFacade.init();
-    this.syncSearchFromPreferences();
-    this.listenToSearchChanges();
+    this.restoreTableState();
+  }
+
+  private restoreTableState(): void {
+        this.authFacade.currentUser$
+      .pipe(
+        filter(user => user !== null),
+        take(1),
+      )
+      .subscribe(() => {
+        this.userTableFacade.init();
+        this.syncSearchFromPreferences();
+        this.listenToSearchChanges();
+      });
   }
 
   private syncSearchFromPreferences(): void {
@@ -59,7 +72,7 @@ export class NetworkTableComponent {
         take(1),
       )
       .subscribe(preferences => {
-        if (preferences?.searchFilter) {
+        if (preferences.searchFilter) {
           this.searchControl.setValue(preferences.searchFilter, { emitEvent: false });
         }
       }
@@ -67,27 +80,23 @@ export class NetworkTableComponent {
   }
 
   private listenToSearchChanges(): void {
-    this.searchControl.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        withLatestFrom(this.currentPreferences$),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(([searchFilter, preferences]) => {
-        if (!preferences) return;
-
-          this.userTableFacade.savePreferences({
-            ...preferences,
-            searchFilter: searchFilter ?? '',
-        });
+  this.searchControl.valueChanges
+    .pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      withLatestFrom(this.currentPreferences$),
+      takeUntilDestroyed(this.destroyRef),
+    )
+    .subscribe(([searchFilter, preferences]) => {
+      this.userTableFacade.savePreferences({
+        ...preferences,
+        searchFilter: searchFilter ?? '',
       });
+    });
   }
 
   protected onPageChange(event: PageEvent): void {
     this.currentPreferences$.pipe(take(1)).subscribe(preferences => {
-      if (!preferences) return;
-
       this.userTableFacade.savePreferences({
         ...preferences,
         pagination: {

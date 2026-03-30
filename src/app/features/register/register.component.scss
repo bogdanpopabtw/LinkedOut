@@ -1,0 +1,31 @@
+.main-container {
+  padding: 40px 380px;
+
+  & .register-container {
+    padding: 40px 0;
+
+    & h1 {
+      text-align: center;
+    }
+
+    & mat-form-field {
+      input {
+        font-size: 18px;
+      }
+    }
+
+    & .form-field {
+      display: flex;
+      justify-self: center;
+      width: 60%;
+    }
+
+    & .form-submit {
+      display: flex;
+      flex-direction: column;
+      justify-self: center;
+      gap: 12px;
+      width: 60%;
+    }
+  }
+}

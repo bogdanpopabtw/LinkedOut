@@ -8,5 +8,4 @@ export const selectUserTableState = createFeatureSelector<UserTableState>(USER_T
 export const selectUsers = createSelector(selectUserTableState, (s) => s.users);
 export const selectPreferences = createSelector(selectUserTableState, (s) => s.preferences);
 export const selectUserTableLoading = createSelector(selectUserTableState, (s) => s.loading);
-export const selectUserTableError = createSelector(selectUserTableState, (s) => s.error);
 export const selectTotalItems = createSelector(selectUserTableState, (s) => s.totalItems);

@@ -1,7 +1,14 @@
 import { createAction, props } from '@ngrx/store';
 import { User } from '../../shared/models/user.model';
 
-export const loadCurrentUser = createAction('[Auth] Load Current User');
+export const initAuth = createAction('[Auth] Init Auth');
+
+export const initAuthFailure = createAction('[Auth] Init Auth Failure');
+
+export const loadCurrentUser = createAction(
+  '[Auth] Load Current User',
+  props<{ userId: number }>(),
+);
 
 export const loadCurrentUserSuccess = createAction(
   '[Auth] Load Current User Success',
@@ -17,3 +24,5 @@ export const updateCurrentUser = createAction(
   '[Auth] Update Current User',
   props<{ user: User }>(),
 );
+
+export const logout = createAction('[Auth] Logout');

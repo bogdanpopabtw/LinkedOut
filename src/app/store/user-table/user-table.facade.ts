@@ -6,7 +6,6 @@ import {
   selectTotalItems,
   selectPreferences,
   selectUserTableLoading,
-  selectUserTableError,
 } from './user-table.selectors';
 import { TablePreferences } from '../../shared/models/table-preferences.model';
 
@@ -18,7 +17,6 @@ export class UserTableFacade {
   readonly totalItems$ = this.store.select(selectTotalItems);
   readonly preferences$ = this.store.select(selectPreferences);
   readonly loading$ = this.store.select(selectUserTableLoading);
-  readonly error$ = this.store.select(selectUserTableError);
 
   init(): void {
     this.store.dispatch(initUserTable());
