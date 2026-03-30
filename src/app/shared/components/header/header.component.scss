@@ -1,6 +1,9 @@
 :host {
   --header-side-padding: 10px;
 
+  position: sticky;
+  top: 0;
+  z-index: 1001;
   display: flex;
   flex: 1;
   justify-content: space-between;
@@ -10,18 +13,16 @@
   padding: 0 var(--header-side-padding);
 
   .header__title {
-    font-size: 1.5rem;
+    margin-left: 14px;
+    font-size: 1.6rem;
     font-weight: bold;
 
-    a {
-      text-decoration: none;
-      color: black;
+    i {
+      margin-right: 8px;
     }
   }
 
   .header__right {
-    margin-left: auto;
-
     button {
       border: none;
       background: var(--mat-sys-surface-container-high);

@@ -1,0 +1,40 @@
+.jobs-container {
+  padding: 10px 200px;
+}
+
+.jobs-table {
+  border: 2px solid black;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--mat-sys-surface);
+
+  .job-info {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    & mat-icon {
+      align-self: center;
+    }
+
+    .job-title {
+      font-weight: 700;
+    }
+  }
+
+  .job-type {
+    padding: 8px 10px;
+    border: 0.1rem solid gray;
+    border-radius: 8px;
+    font-weight: 500;
+  }
+
+  .table-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: lightgray;
+    }
+  }
+}

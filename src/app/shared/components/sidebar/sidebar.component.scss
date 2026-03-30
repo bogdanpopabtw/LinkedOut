@@ -1,0 +1,91 @@
+.sidebar {
+  position: fixed;
+  top: 57px;
+  width: 220px;
+  height: calc(100vh - 57px);
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border-right: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface);
+  transition: width 0.3s ease;
+  z-index: 1000;
+}
+
+nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 500;
+
+  &.active {
+    background: rgb(215, 225, 245);
+    font-weight: 600;
+  }
+}
+
+.current-user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  font-weight: 500;
+}
+
+.user-info {
+  overflow: hidden;
+
+  .user-name {
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .user-headline {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+  }
+}
+
+.toggle-btn {
+  margin-top: 10px;
+  border: none;
+  background: var(--mat-sys-surface);
+  align-self: flex-end;
+  cursor: pointer;
+
+  & mat-icon {
+    transition: transform 0.3s ease;
+  }
+}
+
+.sidebar.collapsed {
+  width: 72px;
+
+  a {
+    justify-content: center;
+  }
+
+  span {
+    display: none;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .toggle-btn {
+    align-self: center;
+  }
+}

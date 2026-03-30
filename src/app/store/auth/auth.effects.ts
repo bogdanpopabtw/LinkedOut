@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { UsersService } from '../../shared/services/users.service';
 import { loadCurrentUser, loadCurrentUserFailure, loadCurrentUserSuccess } from './auth.actions';
+import { initTheme } from '../ui/ui.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -26,6 +27,13 @@ export class AuthEffects {
           ),
         ),
       ),
+    ),
+  );
+
+  loadUserSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadCurrentUserSuccess),
+      map(() => initTheme()),
     ),
   );
 }
