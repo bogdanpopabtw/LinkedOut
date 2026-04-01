@@ -52,8 +52,6 @@ export class RegisterComponent {
   });
 
   protected onSubmit(): void {
-    if(this.registerForm.invalid) return;
-
     const { firstName, lastName, email, password } = this.registerForm.value;
 
     this.authService.register({

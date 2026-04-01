@@ -42,8 +42,6 @@ export class LoginComponent {
   });
 
   protected onSubmit(): void {
-    if (this.loginForm.invalid) return;
-
     const { email, password } = this.loginForm.value;
 
     this.authService.login({ email: email!, password: password! }).pipe(

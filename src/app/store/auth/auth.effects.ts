@@ -14,20 +14,17 @@ export class AuthEffects {
   private readonly authService = inject(AuthService);
 
   initAuth$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(initAuth),
-    switchMap(() => {
-      if (!this.authService.isTokenValid()) {
-        return of(initAuthFailure());
-      }
-      const userId = this.authService.getUserIdFromToken();
-      if (!userId) {
-        return of(initAuthFailure());
-      }
-      return of(loadCurrentUser({ userId }));
-    }),
-  ),
-);
+    this.actions$.pipe(
+      ofType(initAuth),
+      switchMap(() => {
+        const userId = this.authService.getUserIdFromToken();
+        if (!this.authService.isTokenValid() || !userId) {
+          return of(initAuthFailure());
+        }
+        return of(loadCurrentUser({ userId }));
+      }),
+    ),
+  );
 
   loadCurrentUser$ = createEffect(() =>
     this.actions$.pipe(
