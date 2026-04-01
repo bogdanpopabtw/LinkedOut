@@ -1,26 +1,32 @@
-<aside class="sidebar" [class.collapsed]="isCollapsed">
-  @if (currentUser$ | async; as user) {
-    <nav>
-      @for (item of navItems; track item.route) {
-        <a [routerLink]="item.route" routerLinkActive="active">
-          <mat-icon>{{ item.icon }}</mat-icon>
-          <span>{{ item.label }}</span>
+@if (isAuthenticated$ | async) {
+  <aside class="sidebar" [class.collapsed]="isCollapsed">
+    @if (currentUser$ | async; as user) {
+      <nav>
+        @for (item of navItems; track item.route) {
+          <a [routerLink]="item.route" routerLinkActive="active">
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <span>{{ item.label }}</span>
+          </a>
+        }
+        <a [routerLink]="['/user', user.id]" routerLinkActive="active">
+          <mat-icon>person</mat-icon>
+          <span>My Profile</span>
         </a>
-      }
-      <a [routerLink]="['/user', user.id]" routerLinkActive="active">
-        <mat-icon>person</mat-icon>
-        <span>My Profile</span>
-      </a>
-    </nav>
-    <div class="current-user">
-      <app-avatar [firstName]="user.firstName" [lastName]="user.lastName" />
-      <div class="user-info">
-        <p class="user-name">{{ user.firstName }} {{ user.lastName }}</p>
-        <p class="user-headline">{{ user.headline }}</p>
+      </nav>
+      <div class="current-user">
+        <app-avatar [firstName]="user.firstName" [lastName]="user.lastName" />
+        <div class="user-info">
+          <p class="user-name">{{ user.firstName }} {{ user.lastName }}</p>
+          <p class="user-headline">{{ user.headline }}</p>
+        </div>
       </div>
-    </div>
-  }
-  <button class="toggle-btn" (click)="toggle()">
-    <mat-icon>{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
-  </button>
-</aside>
+      <div class="logout-container">
+        <mat-icon>logout</mat-icon>
+        <button class="logout-btn" type="button" (click)="logout()">Logout</button>
+      </div>
+    }
+    <button class="toggle-btn" (click)="toggle()">
+      <mat-icon>{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+    </button>
+  </aside>
+}

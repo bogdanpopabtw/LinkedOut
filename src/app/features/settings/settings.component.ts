@@ -80,7 +80,7 @@ export class SettingsComponent implements OnInit {
     this.currentUser$
     .pipe(take(1)).subscribe(user => {
       if(user) {
-    this.settingsForm.patchValue(user);
+        this.settingsForm.patchValue(user);
       }
     });
   }

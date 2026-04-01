@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, withLatestFrom, take, filter } from 'rxjs/operators';
+import { catchError, map, switchMap, withLatestFrom, filter } from 'rxjs/operators';
 import { UsersService } from '../../shared/services/users.service';
 import { selectCurrentUser } from '../auth/auth.selectors';
 import {
@@ -26,24 +26,12 @@ export class UserTableEffects {
   init$ = createEffect(() =>
   this.actions$.pipe(
     ofType(initUserTable),
-    switchMap(() =>
-      this.store.select(selectCurrentUser).pipe(
-        filter((user) => user !== null),
-        take(1),
-        switchMap((currentUser) =>
-          this.usersService.getUserById(currentUser!.id).pipe(
-            switchMap((newUser) => [
-              setPreferences({ preferences: newUser.tablePreferences }),
-              loadUsers({ preferences: newUser.tablePreferences }),
-            ]),
-            catchError(() => [
-              setPreferences({ preferences: currentUser!.tablePreferences }),
-              loadUsers({ preferences: currentUser!.tablePreferences }),
-            ]),
-          ),
-        ),
-      ),
-    ),
+    withLatestFrom(this.store.select(selectCurrentUser)),
+    filter(([, user]) => user !== null),
+    switchMap(([, currentUser]) => [
+      setPreferences({ preferences: currentUser!.tablePreferences }),
+      loadUsers({ preferences: currentUser!.tablePreferences }),
+    ]),
   ),
 );
 
@@ -80,7 +68,6 @@ export class UserTableEffects {
         if (!currentUser) {
           return of(savePreferencesFailure({ error: 'No current user found' }));
         }
-
         return this.usersService
           .updateUser(currentUser.id, { tablePreferences: preferences })
           .pipe(
