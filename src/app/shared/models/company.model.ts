@@ -1,5 +1,3 @@
-import { Job } from './job.model';
-
 export interface Company {
   id: number;
   name: string;

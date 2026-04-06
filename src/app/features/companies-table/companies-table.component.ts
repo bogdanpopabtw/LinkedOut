@@ -7,9 +7,10 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Company } from '../../shared/models/company.model';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
+import { PaginatedResponse } from '../../shared/models/pagination.model';
 
 @Component({
   selector: 'app-companies-table',
@@ -21,7 +22,7 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     ReactiveFormsModule,
     CommonModule,
-  ],
+],
   templateUrl: './companies-table.component.html',
   styleUrl: './companies-table.component.scss',
 })
@@ -29,9 +30,8 @@ export class CompaniesTableComponent implements OnInit {
   private readonly companiesService = inject(CompaniesService);
   private readonly destroyRef = inject(DestroyRef);
 
-  protected companies: Company[] = [];
-  protected totalItems = 0;
   protected readonly displayedColumns: string[] = ['company', 'location', 'website', 'jobs'];
+  protected data$!: Observable<PaginatedResponse<Company>>;
 
   protected searchControl = new FormControl('');
   protected pageSize = 10;
@@ -57,20 +57,11 @@ export class CompaniesTableComponent implements OnInit {
   }
 
   private loadCompanies(): void {
-    this.companiesService
-      .getAll({
-        search: this.searchControl.value ?? '',
-        page: this.pageNumber,
-        limit: this.pageSize,
-      })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (response) => {
-          this.companies = response.data;
-          this.totalItems = response.pagination.totalItems;
-        },
-      }
-    );
+     this.data$ = this.companiesService.getAll({
+      search: this.searchControl.value || undefined,
+      page: this.pageNumber,
+      limit: this.pageSize,
+    });
   }
 
   protected onPageChange(event: PageEvent): void {

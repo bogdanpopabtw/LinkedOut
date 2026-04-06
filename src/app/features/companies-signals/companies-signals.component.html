@@ -4,9 +4,12 @@
   <mat-form-field appearance="outline">
     <mat-icon matPrefix>search</mat-icon>
     <input matInput [formControl]="searchControl" placeholder="Search companies" />
+    <button class="clear-search" matSuffix mat-icon-button (click)="clearSearch()">
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-form-field>
 
-  <table mat-table [dataSource]="(data$ | async)?.data ?? []" class="companies-table">
+  <table mat-table [dataSource]="data()?.data ?? []" class="companies-table">
     <ng-container matColumnDef="company">
       <th mat-header-cell *matHeaderCellDef>Company</th>
       <td mat-cell *matCellDef="let company">
@@ -41,12 +44,21 @@
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns" class="table-row"></tr>
+    <tr *matNoDataRow>
+      <td [colSpan]="displayedColumns.length">
+        @if (data() === undefined) {
+          <mat-spinner></mat-spinner>
+        } @else if (isEmpty()) {
+          No companies found.
+        }
+      </td>
+    </tr>
   </table>
 
   <mat-paginator
-    [length]="(data$ | async)?.pagination?.totalItems ?? 0"
-    [pageSize]="pageSize"
-    [pageIndex]="pageNumber - 1"
+    [length]="data()?.pagination?.totalItems ?? 0"
+    [pageSize]="pageSize()"
+    [pageIndex]="pageNumber() - 1"
     [pageSizeOptions]="[5, 10, 20]"
     (page)="onPageChange($event)"
   >
