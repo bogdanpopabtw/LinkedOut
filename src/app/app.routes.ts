@@ -8,6 +8,7 @@ import { LoginComponent } from './features/login/login.component';
 import { RegisterComponent } from './features/register/register.component';
 import { authenticatedGuard } from './core/guards/authenticated.guard';
 import { unauthenticatedGuard } from './core/guards/unauthenticated.guard';
+import { CompaniesSignalsComponent } from './features/companies-signals/companies-signals.component';
 
 export const routes: Routes = [
   { path: 'login', canActivate:[unauthenticatedGuard], component: LoginComponent },
@@ -16,6 +17,7 @@ export const routes: Routes = [
   { path: 'settings', canActivate:[authenticatedGuard], component: SettingsComponent },  
   { path: 'user/:id', canActivate:[authenticatedGuard], component: UserProfileComponent },
   { path: 'companies', canActivate:[authenticatedGuard], component: CompaniesTableComponent},
+  { path: 'signals', canActivate:[authenticatedGuard], component: CompaniesSignalsComponent},
   { path: 'jobs', canActivate:[authenticatedGuard], component: JobsTableComponent},
   { path: '**', redirectTo: 'login' },
 ];

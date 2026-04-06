@@ -1,0 +1,56 @@
+.companies-container {
+  padding: 10px 260px;
+}
+
+.clear-search {
+  background-color: var(--mat-sys-surface);
+  border: 0;
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.companies-table {
+  border: 2px solid black;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--mat-sys-surface);
+
+  .table-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: lightgray;
+    }
+  }
+
+  .company-cell {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+
+    & mat-icon {
+      color: gray;
+    }
+
+    & .company-name {
+      font-weight: 600;
+    }
+  }
+
+  .company-website {
+    color: rgb(27, 106, 191);
+  }
+
+  .jobs-count {
+    padding: 8px 10px;
+    border: 0.1rem solid gray;
+    border-radius: 8px;
+  }
+}
+
+.jobs-count {
+  padding: 8px 10px;
+  border: 0.1rem solid gray;
+  border-radius: 8px;
+}

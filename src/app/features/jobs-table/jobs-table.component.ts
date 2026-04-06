@@ -7,9 +7,10 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Job } from '../../shared/models/job.model';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
+import { PaginatedResponse } from '../../shared/models/pagination.model';
 
 
 @Component({
@@ -30,9 +31,8 @@ export class JobsTableComponent implements OnInit {
   private readonly jobService = inject(JobsService);
   private readonly destroyRef = inject(DestroyRef);
 
-  protected jobs: Job[] = [];
-  protected totalItems = 0;
   protected readonly displayedColumns: string[] = ['job', 'location', 'type', 'posted'];
+  protected data$!: Observable<PaginatedResponse<Job>>;
 
   protected searchControl = new FormControl('');
   protected pageSize = 10;
@@ -43,7 +43,7 @@ export class JobsTableComponent implements OnInit {
     this.setSearch();
   }
 
-  private setSearch(): void {
+  protected setSearch(): void {
     this.searchControl.valueChanges
     .pipe(
       debounceTime(300),
@@ -56,21 +56,12 @@ export class JobsTableComponent implements OnInit {
     });
   }
 
-  private loadJobs(): void {
-    this.jobService
-      .getAll({
-        search: this.searchControl.value ?? '',
-        page: this.pageNumber,
-        limit: this.pageSize,
-      })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (response) => {
-          this.jobs = response.data;
-          this.totalItems = response.pagination.totalItems;
-        },
-      }
-    );
+  protected loadJobs(): void {
+    this.data$ = this.jobService.getAll({
+      search: this.searchControl.value || undefined,
+      page: this.pageNumber,
+      limit: this.pageSize,
+    });
   }
 
   protected onPageChange(event: PageEvent): void {

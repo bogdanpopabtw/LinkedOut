@@ -36,6 +36,7 @@ export class SidebarComponent {
     { icon: 'business', label: 'Companies', route: '/companies' },
     { icon: 'work', label: 'Jobs', route: '/jobs' },
     { icon: 'settings', label: 'Settings', route: '/settings' },
+    { icon: 'signal_cellular_alt', label: 'Signals', route: '/signals' },
   ]
 
   protected logout(): void {
